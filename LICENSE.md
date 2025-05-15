@@ -16,8 +16,8 @@ Subject to the following restrictions:
 1. 🚫 The Software may not be modified, altered, or adapted in any way, in whole or in part.
 2. 🚫 The Software may not be redistributed, rehosted, sublicensed, or otherwise shared by any party other than the original author.
 3. 🚫 The Software may not be imported into or integrated with any other software, library, or project.
-4. ✅ The Software may be used as-is, without modification, for any purpose.
-   (Note: I am not responsible for any illegal or unwanted software applications.)
+4. ✅ The Software may be used as-is, without modification, for any purpose.<br><ul>
+   (Note: I am not responsible for any illegal or unwanted software applications.)</ul>
 
 ---
 
