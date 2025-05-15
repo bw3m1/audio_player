@@ -8,15 +8,15 @@ All Rights Reserved.
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation, to:
 
 - View the Software in its original, unmodified form.
-- Execute the Software for any purpose, including commercial or non-commercial uses.  
+- Execute the Software for any purpose, including commercial or non-commercial uses.
 - Discuss, review, or analyze the Software publicly or privately.
 
 Subject to the following restrictions:
 
-1. 🚫 The Software may not be modified, altered, or adapted in any way, in whole or in part.
-2. 🚫 The Software may not be redistributed, rehosted, sublicensed, or otherwise shared by any party other than the original author.
-3. 🚫 The Software may not be imported into or integrated with any other software, library, or project.
-4. ✅ The Software may be used as-is, without modification, for any purpose.<br><ul>
+1. 🚫 The Software may not be modified, altered, or adapted in any way, in whole or in part, whether locally or publicly.
+2. 🚫 The Software may not be redistributed, rehosted, sublicensed, or otherwise shared by any party other than the original author.<br><ul>(you may share knowledge of its existence but aren't alowd to sent the code, however you may sent the link or direct them to us)</ul>
+4. 🚫 The Software may not be imported into or integrated with any other software, library, or project.
+5. ✅ The Software may be used as-is, without modification, for any purpose.<br><ul>
    (Note: I am not responsible for any illegal or unwanted software applications.)</ul>
 
 ---
