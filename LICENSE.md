@@ -14,7 +14,7 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 Subject to the following restrictions:
 
 1. 🚫 The Software may not be modified, altered, or adapted in any way, in whole or in part, whether locally or publicly.
-2. 🚫 The Software may not be redistributed, rehosted, sublicensed, or otherwise shared by any party other than the original author.<br><ul>(you aren't alowd to sent the ofline files, however you may sent the link or direct them to us)</ul>
+2. 🚫 The Software may not be redistributed, rehosted, sublicensed, or otherwise shared by any party other than the original author.<br><ul>(you aren't alowd to sent the ofline files, however you may direct them to us where we will be happy to provide them with our code)</ul>
 4. 🚫 The Software may not be imported into or integrated with any other software, library, or project.
 5. ✅ The Software may be used as-is, without modification, for any purpose.<br><ul>
    (Note: I am not responsible for any illegal or unwanted software applications.)</ul>
