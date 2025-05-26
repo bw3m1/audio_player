@@ -654,7 +654,7 @@
     <div class="player-container">
         <div class="album-art-container">
             <div class="album-art-blur" id="album-art-blur"></div>
-            <img class="album-art" id="album-art" src="" alt="Album Art">
+            <img class="album-art" id="album-art" src="" alt="Album Art" title="Click to add music" tabindex="0" aria-label="Album Art (click to add music)">
             <svg class="album-art-placeholder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M3 18V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
                 <path d="M16 18V6"></path>
@@ -684,7 +684,7 @@
                 </div>
 
                 <div class="progress-container">
-                    <div class="progress-bar" id="progress-bar">
+                    <div class="progress-bar" id="progress-bar" title="Seek (click or drag)" tabindex="0" aria-label="Seek bar">
                         <div class="progress-fill" id="progress-fill"></div>
                     </div>
                     <div class="time-display">
@@ -704,7 +704,7 @@
                             <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
                         </svg>
                     </button>
-                    <button class="control-btn play-btn" id="play-btn" title="Play">
+                    <button class="control-btn play-btn" id="play-btn" title="Play (Space)" aria-label="Play/Pause (Space)">
                         <svg viewBox="0 0 24 24" id="play-icon">
                             <path d="M8 5v14l11-7z"/>
                         </svg>
@@ -730,6 +730,11 @@
                         <button class="speed-btn" data-speed="1.5">1.5x</button>
                         <button class="speed-btn" data-speed="2.0">2.0x</button>
                     </div>
+                    <div style="margin-left:20px;color:var(--text-tertiary);font-size:13px;">
+                        <span title="Keyboard Shortcuts">
+                            ␣ Play/Pause &nbsp;⏮ P &nbsp;⏭ N &nbsp;⏫/⏬ Vol &nbsp;M Mute &nbsp;S Shuffle &nbsp;R Repeat
+                        </span>
+                    </div>
                 </div>
             </div>
 
@@ -753,29 +758,7 @@
                                 <path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/>
                             </svg>
                         </button>
-                        <button class="playlist-action-btn" id="save-playlist-btn" title="Save playlist">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
-                            </svg>
-                        </button>
-                        <button class="playlist-action-btn" id="load-playlist-btn" title="Load playlist">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                            </svg>
-                        </button>
                     </div>
-                </div>
-
-                <div class="playlist-load-container" id="playlist-load-container" style="display: none;">
-                    <div class="playlist-load-header">
-                        <h3>Saved Playlists</h3>
-                        <button class="playlist-action-btn" id="close-load-menu">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="playlist-load-list" id="playlist-load-list"></div>
                 </div>
 
                 <div class="playlist" id="playlist">
@@ -824,11 +807,9 @@
         const clearPlaylistBtn = document.getElementById('clear-playlist');
         const shufflePlaylistBtn = document.getElementById('shuffle-playlist');
         const addMusicBtn = document.getElementById('add-music-btn');
-        const savePlaylistBtn = document.getElementById('save-playlist-btn');
-        const loadPlaylistBtn = document.getElementById('load-playlist-btn');
-        const playlistLoadContainer = document.getElementById('playlist-load-container');
-        const playlistLoadList = document.getElementById('playlist-load-list');
-        const closeLoadMenu = document.getElementById('close-load-menu');
+        const muteBtn = document.getElementById('mute-btn');
+        const muteIcon = document.getElementById('mute-icon');
+        const volumeSlider = document.getElementById('volume-slider');
 
         // Player State
         let playlistItems = [];
@@ -858,9 +839,6 @@
             // Playlist actions
             clearPlaylistBtn.addEventListener('click', clearPlaylist);
             shufflePlaylistBtn.addEventListener('click', shufflePlaylist);
-            savePlaylistBtn.addEventListener('click', showSavePlaylistDialog);
-            loadPlaylistBtn.addEventListener('click', showLoadPlaylistMenu);
-            closeLoadMenu.addEventListener('click', () => playlistLoadContainer.style.display = 'none');
 
             // Progress bar
             progressBar.addEventListener('click', seek);
@@ -888,8 +866,34 @@
             });
             audioPlayer.addEventListener('loadedmetadata', updateDuration);
 
+            // Volume control
+            volumeSlider.addEventListener('input', (e) => {
+                audioPlayer.volume = parseFloat(e.target.value);
+                audioPlayer.muted = audioPlayer.volume === 0;
+                updateMuteIcon();
+            });
+            audioPlayer.addEventListener('volumechange', updateMuteIcon);
+
+            // Mute button
+            muteBtn.addEventListener('click', toggleMute);
+
             // Keyboard shortcuts
             document.addEventListener('keydown', handleKeyboardShortcuts);
+
+            // Accessibility: Album art and progress bar
+            albumArt.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    fileInput.click();
+                }
+            });
+            progressBar.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') {
+                    audioPlayer.currentTime = Math.max(0, audioPlayer.currentTime - 5);
+                } else if (e.key === 'ArrowRight') {
+                    audioPlayer.currentTime = Math.min(audioPlayer.duration, audioPlayer.currentTime + 5);
+                }
+            });
         }
 
         function handleFileSelection(e) {
@@ -1134,173 +1138,6 @@
             repeatBtn.title = `Repeat ${repeatMode === 'one' ? 'One' : repeatMode === 'all' ? 'All' : 'Off'}`;
         }
 
-        function showSavePlaylistDialog() {
-            if (playlistItems.length === 0) {
-                alert('Playlist is empty. Add some songs first.');
-                return;
-            }
-
-            const playlistName = prompt('Enter a name for this playlist:');
-            if (!playlistName) return;
-
-            savePlaylist(playlistName);
-        }
-
-        function savePlaylist(name) {
-            // Get existing playlists from localStorage
-            const savedPlaylists = JSON.parse(localStorage.getItem('playlists') || '{}');
-            
-            // Create a new playlist with just the file references (not the files themselves)
-            const playlistToSave = {
-                name: name,
-                items: playlistItems.map(item => ({
-                    file: {
-                        name: item.file.name,
-                        path: item.file.path, // This will be used to identify the file
-                        type: item.file.type,
-                        lastModified: item.file.lastModified,
-                        size: item.file.size
-                    },
-                    metadata: item.metadata
-                })),
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            };
-            
-            // Save to localStorage
-            savedPlaylists[name] = playlistToSave;
-            localStorage.setItem('playlists', JSON.stringify(savedPlaylists));
-            
-            alert(`Playlist "${name}" saved successfully!`);
-        }
-
-        function showLoadPlaylistMenu() {
-            playlistLoadContainer.style.display = 'block';
-            playlistLoadList.innerHTML = '';
-            
-            const savedPlaylists = JSON.parse(localStorage.getItem('playlists') || '{}');
-            
-            if (Object.keys(savedPlaylists).length === 0) {
-                playlistLoadList.innerHTML = '<div class="playlist-empty-text">No saved playlists found</div>';
-                return;
-            }
-            
-            Object.entries(savedPlaylists).forEach(([name, playlist]) => {
-                const playlistItem = document.createElement('div');
-                playlistItem.className = 'playlist-load-item';
-                playlistItem.innerHTML = `
-                    <h4>${name}</h4>
-                    <p>${playlist.items.length} tracks • ${new Date(playlist.updatedAt).toLocaleDateString()}</p>
-                    <div class="playlist-load-item-actions">
-                        <button class="playlist-load-item-btn load-playlist-btn" data-name="${name}" title="Load playlist">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                            </svg>
-                        </button>
-                        <button class="playlist-load-item-btn delete-playlist-btn" data-name="${name}" title="Delete playlist">
-                            <svg viewBox="0 0 24 24">
-                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-                            </svg>
-                        </button>
-                    </div>
-                `;
-                
-                playlistLoadList.appendChild(playlistItem);
-            });
-            
-            // Add event listeners to the new buttons
-            document.querySelectorAll('.load-playlist-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    loadPlaylist(btn.dataset.name);
-                });
-            });
-            
-            document.querySelectorAll('.delete-playlist-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    deletePlaylist(btn.dataset.name);
-                });
-            });
-        }
-
-        function loadPlaylist(name) {
-            const savedPlaylists = JSON.parse(localStorage.getItem('playlists') || '{}');
-            const playlist = savedPlaylists[name];
-            
-            if (!playlist) {
-                alert('Playlist not found!');
-                return;
-            }
-            
-            // Clear current playlist
-            clearPlaylist();
-            
-            // Show loading message
-            playlistElement.innerHTML = '<div class="playlist-empty-text">Loading playlist...</div>';
-            
-            // Try to find and load each file
-            let filesFound = 0;
-            playlist.items.forEach(item => {
-                // This is a simplified approach - in a real app, you'd need a more robust way to locate files
-                // Here we'll just prompt the user to select the file again
-                const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = item.file.type;
-                input.onchange = (e) => {
-                    const file = e.target.files[0];
-                    if (file) {
-                        readAudioMetadata(file).then(metadata => {
-                            const playlistItem = createPlaylistItem(file, metadata);
-                            playlistElement.appendChild(playlistItem);
-                            playlistItems.push({ file, metadata });
-                            updatePlaylistCount();
-                            
-                            filesFound++;
-                            if (filesFound === playlist.items.length) {
-                                playlistLoadContainer.style.display = 'none';
-                                if (filesFound > 0) {
-                                    playFile(0);
-                                }
-                            }
-                        }).catch(error => {
-                            console.error('Error reading metadata:', error);
-                            const fallbackMetadata = {
-                                title: file.name.replace(/\.[^/.]+$/, ""),
-                                artist: 'Unknown Artist',
-                                album: 'Unknown Album',
-                                picture: null,
-                                duration: 0
-                            };
-                            const playlistItem = createPlaylistItem(file, fallbackMetadata);
-                            playlistElement.appendChild(playlistItem);
-                            playlistItems.push({ file, metadata: fallbackMetadata });
-                            updatePlaylistCount();
-                            
-                            filesFound++;
-                            if (filesFound === playlist.items.length) {
-                                playlistLoadContainer.style.display = 'none';
-                                if (filesFound > 0) {
-                                    playFile(0);
-                                }
-                            }
-                        });
-                    }
-                };
-                input.click();
-            });
-        }
-
-        function deletePlaylist(name) {
-            if (!confirm(`Are you sure you want to delete the playlist "${name}"?`)) return;
-            
-            const savedPlaylists = JSON.parse(localStorage.getItem('playlists') || '{}');
-            delete savedPlaylists[name];
-            localStorage.setItem('playlists', JSON.stringify(savedPlaylists));
-            
-            showLoadPlaylistMenu();
-        }
-
         function clearPlaylist() {
             playlistItems = [];
             currentIndex = -1;
@@ -1486,6 +1323,22 @@
             return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
+        function toggleMute() {
+            audioPlayer.muted = !audioPlayer.muted;
+            updateMuteIcon();
+        }
+
+        function updateMuteIcon() {
+            if (audioPlayer.muted || audioPlayer.volume === 0) {
+                muteIcon.innerHTML = '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03V7.5c0-.83-.67-1.5-1.5-1.5S11 6.67 11 7.5v9c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-0.47c1.48-.74 2.5-2.26 2.5-4.03z"/><line x1="19" y1="5" x2="5" y2="19" stroke="currentColor" stroke-width="2"/>';
+                muteBtn.classList.add('active');
+            } else {
+                muteIcon.innerHTML = '<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03V7.5c0-.83-.67-1.5-1.5-1.5S11 6.67 11 7.5v9c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-0.47c1.48-.74 2.5-2.26 2.5-4.03z"/>';
+                muteBtn.classList.remove('active');
+            }
+            volumeSlider.value = audioPlayer.muted ? 0 : audioPlayer.volume;
+        }
+
         function handleKeyboardShortcuts(e) {
             if (e.target.tagName === 'INPUT') return;
             
@@ -1512,7 +1365,7 @@
                     break;
                 case 'm':
                     e.preventDefault();
-                    audioPlayer.muted = !audioPlayer.muted;
+                    toggleMute();
                     break;
                 case 's':
                     e.preventDefault();
