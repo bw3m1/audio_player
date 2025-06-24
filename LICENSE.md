@@ -1,27 +1,7 @@
-# No-Editing and No-Distributing license
+Copyright (c) 2025 Bryson J G
 
-© Bryson J G, 2025  
-All Rights Reserved.
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
----
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation, to:
-
-- View the Software in its original, unmodified form.
-- Execute the Software for any purpose, including commercial or non-commercial uses.
-- Discuss, review, or analyze the Software publicly or privately.
-
-Subject to the following restrictions:
-
-1. 🚫 The Software may not be modified, altered, or adapted in any way, in whole or in part, whether locally or publicly.
-2. 🚫 The Software may not be redistributed, rehosted, sublicensed, or otherwise shared by any party other than the original author.<br><ul>(you aren't alowd to sent the ofline files, however you may direct them to us where we will be happy to provide them with our code)</ul>
-4. 🚫 The Software may not be imported into or integrated with any other software, library, or project.
-5. ✅ The Software may be used as-is, without modification, for any purpose.<br><ul>
-   (Note: I am not responsible for any illegal or unwanted software applications.)</ul>
-
----
-
-Any use of this Software that violates the above terms is strictly prohibited and may be subject to legal action.
-
-For permissions beyond the scope of this license, please contact the author (Bryson J G) directly at:  
-📧 Bw3m@proton.me
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
